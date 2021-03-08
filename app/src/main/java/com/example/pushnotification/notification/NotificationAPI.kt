@@ -1,4 +1,4 @@
-package com.example.pushnotification
+package com.example.pushnotification.notification
 
 import com.example.pushnotification.Constants.Companion.CONTENT_TYPE
 import com.example.pushnotification.Constants.Companion.SERVER_KEY

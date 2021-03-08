@@ -2,79 +2,57 @@ package com.example.pushnotification.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import com.example.pushnotification.RetrofitInstance
+import android.widget.Toast
 import com.example.pushnotification.data.NotificationData
 import com.example.pushnotification.data.PushNotificationData
-import com.example.pushnotification.service.FirebaseService
+import com.example.pushnotification.notification.sendNotification
+import com.example.pushnotification.notification.subscribeToTopic
 import com.example.pusnothification.R
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 const val TOPIC = "topic" // This variable shares the notification to all devices that contain the same topic ..
-
+const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
-
-    companion object{
-        val FILE_NAME_KEY = "fileName"
-    }
-
-    val TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-        FirebaseService.SharedPref = getSharedPreferences(FILE_NAME_KEY, MODE_PRIVATE) // this code use it if you need to storage some values ..
-
+        // for get the token ..
         FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
-            FirebaseService.token = it.token   // this code for get the token of the device and set it in the the token value inside the token variable ..
-            EditText_Token.setText(it.token)
+            val token = it.token
+            EditText_Token.setText(token)
         }
 
-        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC) // the code for send notification for all devices that have the same topic variable ..
+
+        /** this code for send notification for all devices that have the same topic variable **/
+        //  subscribeToTopic(TOPIC)
+
 
         // Button_Send ..
         Button_Send.setOnClickListener {
-            val Title = EditText_Title.text.toString()
-            val Message = EditText_Message.text.toString()
-            val Token = EditText_Token.text.toString()
-            if(Title.isNotEmpty() && Message.isNotEmpty() && Token.isNotEmpty()) {
-                PushNotificationData(
-                    NotificationData(Title, Message), // Data  parameter..
-                    Token // to parameter..    // --> you can use the topic for send the notification to specific multi devices or use the token to send the notification to single device ..
-                ).also {
-                    sendNotification(it)
-                }
+            val title = EditText_Title.text.toString()
+            val bodyMessage = EditText_Message.text.toString()
+            val token = EditText_Token.text.toString()
+            if(title.isNotEmpty() && bodyMessage.isNotEmpty() && token.isNotEmpty()) {
+                sendNotification(notifyData(title,bodyMessage,token),TAG)  // --> you can use the topic for send the notification to specific multi devices or use the token to send the notification to single device ..
+            }else{
+                Toast.makeText(this,"Please fill all information",Toast.LENGTH_SHORT).show()
             }
         }
-
-
 
 
     }
 
 
-
-    private fun sendNotification(notification: PushNotificationData) = CoroutineScope(Dispatchers.IO).launch {
-        try {
-            val response = RetrofitInstance.api.postNotification(notification)
-            if(response.isSuccessful) {
-                Log.d(TAG, "Response: ${Gson().toJson(response)}")
-            } else {
-                Log.e(TAG, response.errorBody().toString())
-            }
-        } catch(e: Exception) {
-            Log.e(TAG, e.toString())
-        }
+    private fun notifyData(title: String , bodyMessage:String ,to:String) : PushNotificationData{
+        return PushNotificationData( NotificationData(title,bodyMessage),to)
     }
+
+
 
 }
