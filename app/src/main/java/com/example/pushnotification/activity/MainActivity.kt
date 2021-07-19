@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
 
         /** this code for send notification for all devices that have the same topic variable **/
-        //  subscribeToTopic(TOPIC)
+//          subscribeToTopic(TOPIC)
 
 
         // Button_Send ..
