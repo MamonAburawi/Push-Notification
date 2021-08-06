@@ -1,15 +1,19 @@
 package com.example.pushnotification.activity
 
+import android.app.NotificationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.example.pushnotification.data.NotificationData
 import com.example.pushnotification.data.PushNotificationData
+import com.example.pushnotification.notification.createNotification
 import com.example.pushnotification.notification.sendNotification
 import com.example.pushnotification.notification.subscribeToTopic
 import com.example.pusnothification.R
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.RemoteMessage
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -53,6 +57,13 @@ class MainActivity : AppCompatActivity() {
         return PushNotificationData( NotificationData(title,bodyMessage),to)
     }
 
+
+//    fun createNotification(message: RemoteMessage){
+//        val notificationManager = ContextCompat.getSystemService(this, NotificationManager::class.java) as NotificationManager
+//
+//
+//        notificationManager.createNotification(message, applicationContext)
+//    }
 
 
 }

@@ -30,7 +30,7 @@ import kotlin.random.Random
 
 private var token = ""
 
-fun NotificationManager.createNotification(message:RemoteMessage , applicationContext: Context){
+fun NotificationManager.createNotification(message:RemoteMessage , applicationContext: Context , pendingIntent: PendingIntent){
 
     val intent = Intent(applicationContext, MainActivity::class.java) // here we set the intent you can use link or any thing ..
     val notificationManager = getSystemService(applicationContext,NotificationManager::class.java) as NotificationManager
@@ -41,7 +41,7 @@ fun NotificationManager.createNotification(message:RemoteMessage , applicationCo
     }
 
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-    val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+//    val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_ONE_SHOT)
     val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
         .setContentTitle(message.data["title"])
         .setContentText(message.data["body"])
