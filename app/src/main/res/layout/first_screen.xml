@@ -13,8 +13,61 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:layout_height="wrap_content"
+            android:text="First Screen"
+            android:textSize="35sp"
+            android:layout_marginTop="15dp"
+            android:gravity="center"/>
 
-    </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+
+            <EditText
+                android:id="@+id/EditText_Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_margin="5dp"
+                android:hint="Enter Title"
+                android:inputType="textPersonName"
+                />
+
+
+            <EditText
+                android:id="@+id/EditText_Message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_margin="5dp"
+                android:hint="Enter message"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/EditText_Token"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_margin="5dp"
+                android:hint="Enter Token"
+                android:inputType="textPersonName"
+                />
+
+
+
+            <Button
+                android:id="@+id/Button_Send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Send"/>
+
+
+        </LinearLayout>
+            </FrameLayout>
 </layout>

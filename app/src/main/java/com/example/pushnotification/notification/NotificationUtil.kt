@@ -12,12 +12,13 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.navigation.NavDeepLinkBuilder
 import com.example.pushnotification.Constants.Companion.CHANNEL_ID
+import com.example.pushnotification.MainActivity
 import com.example.pushnotification.RetrofitInstance
-import com.example.pushnotification.activity.MainActivity
+import com.example.pushnotification.data.NotificationData
 import com.example.pushnotification.data.PushNotificationData
 import com.example.pusnothification.R
-import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
@@ -30,7 +31,7 @@ import kotlin.random.Random
 
 private var token = ""
 
-fun NotificationManager.createNotification(message:RemoteMessage , applicationContext: Context , pendingIntent: PendingIntent){
+fun NotificationManager.createNotification(message:RemoteMessage , applicationContext: Context , destination: Int){
 
     val intent = Intent(applicationContext, MainActivity::class.java) // here we set the intent you can use link or any thing ..
     val notificationManager = getSystemService(applicationContext,NotificationManager::class.java) as NotificationManager
@@ -39,6 +40,12 @@ fun NotificationManager.createNotification(message:RemoteMessage , applicationCo
     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         createNotificationChannel(notificationManager)
     }
+
+    val pendingIntent = NavDeepLinkBuilder(applicationContext)
+        .setComponentName(MainActivity::class.java)
+        .setGraph(R.navigation.nav_graph)
+        .setDestination(destination)
+        .createPendingIntent()
 
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 //    val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_ONE_SHOT)
@@ -77,6 +84,10 @@ fun sendNotification(notification: PushNotificationData , TAG: String) {
             Log.e(TAG, e.toString())
         }
     }
+}
+
+fun notifyData(title: String , bodyMessage:String ,to:String, destination: Int) : PushNotificationData {
+    return PushNotificationData( NotificationData(title,bodyMessage,destination),to)
 }
 
 fun subscribeToTopic(topic: String){

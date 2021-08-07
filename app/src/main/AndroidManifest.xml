@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.pusnothification">
 
 <!--    add this 2 permission in your app ..-->
@@ -19,6 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+
 <!--        add this in your app service -->
         <service android:name="com.example.pushnotification.service.FirebaseService"
             android:permission="com.google.android.c2dm.permission.SEND">
@@ -29,7 +31,7 @@
         </service>
 
 
-        <activity android:name="com.example.pushnotification.activity.MainActivity">
+        <activity android:name="com.example.pushnotification.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
